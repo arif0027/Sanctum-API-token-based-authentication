@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         return $this->makeToken($user);
     }
-    public function Register(RegisterRequest $request)
+    public function register(RegisterRequest $request)
     {
         $user = User::create($request->validated());
         return $this->makeToken($user);       
@@ -40,5 +40,11 @@ class AuthController extends Controller
                 'email' => $user->email,
             ],
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        return response()->json(['message' => 'logout successful'], 200);       
     }
 }
